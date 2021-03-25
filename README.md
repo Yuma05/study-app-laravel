@@ -21,3 +21,5 @@ sail artisan key:generate
 # migrate と seed
 sail artisan migrate:fresh --seed
 ````
+# Postman collection
+https://www.getpostman.com/collections/80b865c1339be4bf2b0a
