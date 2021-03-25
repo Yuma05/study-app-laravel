@@ -19,7 +19,7 @@ sail up -d
 sail artisan key:generate
 
 # キャッシュ作成
-php artisan config:cache
+sail artisan config:cache
 
 # migrate と seed
 sail artisan migrate:fresh --seed
