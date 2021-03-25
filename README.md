@@ -18,6 +18,9 @@ sail up -d
 # APP_KEY作成
 sail artisan key:generate
 
+# キャッシュ作成
+php artisan config:cache
+
 # migrate と seed
 sail artisan migrate:fresh --seed
 ````
