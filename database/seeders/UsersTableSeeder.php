@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users=[
+        $users = [
             [
                 'name' => 'user',
                 'email' => 'user@example.com',
