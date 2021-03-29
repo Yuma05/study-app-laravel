@@ -13,15 +13,17 @@ class CreateQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->text('content');
-            $table->text('explanation');
-            $table->foreignId('material_id');
-            $table->foreignId('created_by');
-            $table->foreignId('updated_by');
-        });
+        Schema::create(
+            'questions', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+                $table->text('content');
+                $table->text('explanation');
+                $table->foreignId('material_id');
+                $table->foreignId('created_by');
+                $table->foreignId('updated_by');
+            }
+        );
     }
 
     /**

@@ -13,14 +13,16 @@ class CreateStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('statuses', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->integer('quiz_score');
-            $table->boolean('is_complete')->default(false);
-            $table->foreignId('user_id');
-            $table->foreignId('material_id');
-        });
+        Schema::create(
+            'statuses', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+                $table->integer('quiz_score');
+                $table->boolean('is_complete')->default(false);
+                $table->foreignId('user_id');
+                $table->foreignId('material_id');
+            }
+        );
     }
 
     /**
