@@ -13,15 +13,17 @@ class CreateChoicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('choices', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->text('content');
-            $table->foreignId('question_id');
-            $table->boolean('is_answer');
-            $table->foreignId('created_by');
-            $table->foreignId('updated_by');
-        });
+        Schema::create(
+            'choices', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+                $table->text('content');
+                $table->foreignId('question_id');
+                $table->boolean('is_answer');
+                $table->foreignId('created_by');
+                $table->foreignId('updated_by');
+            }
+        );
     }
 
     /**
