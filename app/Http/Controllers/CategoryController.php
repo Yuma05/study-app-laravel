@@ -2,99 +2,78 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
-use Illuminate\Support\Facades\Storage;
+use App\UseCases\Category\StoreUseCase;
+use App\Http\Resources\CategoryResource;
+use App\Http\Requests\Category\StoreRequest;
+use App\Http\Requests\Category\UpdateRequest;
+use App\UseCases\Category\UpdateUseCase;
+use App\UseCases\Category\DestroyUseCase;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Category[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return Category::all();
+        return CategoryResource::collection(Category::all());
     }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @param StoreRequest $request
+     * @param StoreUseCase $useCase
+     * @return CategoryResource
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request, StoreUseCase $useCase)
     {
-        $category = new Category;
-
-        // 画像アップロード
-        $upload_path = Storage::disk('s3')->putFile('category', $request->file, 'public');
-
-        // 絶対パスで保存
-        $category->image_src = Storage::disk('s3')->url($upload_path);
-
-        $category->name = $request->name;
-        $category->save();
-
-        return redirect('api/category');
+        $category = $request->makeCategory();
+        $created = $useCase->invoke($category);
+        return new CategoryResource($created);
     }
 
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return CategoryResource
      */
-    public function show($id)
+    public function show(int $id)
     {
-        return Category::find($id);
+        return new CategoryResource(Category::find($id));
     }
 
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int                      $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @param UpdateRequest $request
+     * @param UpdateUseCase $useCase
+     * @return CategoryResource
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, UpdateUseCase $useCase)
     {
-        $category = Category::find($id);
-
-        // 更新画像アップロード
-        $upload_path = Storage::disk('s3')->putFile('category', $request->file, 'public');
-        $category->image_src = Storage::disk('s3')->url($upload_path);
-
-        // 旧画像削除
-        $delete_path = parse_url($category->image_src);
-        Storage::disk('s3')->delete($delete_path);
-
-        $category->name = $request->name;
-        $category->save();
-
-        return redirect('api/category/' . $id);
+        $category = $request->updateCategory();
+        $created = $useCase->invoke($category);
+        return new CategoryResource($created);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @param int $id
+     * @param DestroyUseCase $useCase
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function destroy($id)
+    public function destroy(int $id, DestroyUseCase $useCase)
     {
-        $category = Category::find($id);
-
-        // 画像削除
-        $delete_path = parse_url($category->image_src);
-        Storage::disk('s3')->delete($delete_path);
-
-        $category->delete();
-        return redirect('api/category');
+        $useCase->invoke($id);
+        return CategoryResource::collection(Category::all());
     }
 }
