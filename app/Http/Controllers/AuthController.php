@@ -11,7 +11,7 @@ class AuthController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return UserResource
      */
     public function __invoke(Request $request)

@@ -13,11 +13,13 @@ class AddUsersProfile extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-            $table->boolean('is_admin')->default(false);
-            $table->text('image_src')->nullable();
-        });
+        Schema::table(
+            'users', function (Blueprint $table) {
+                //
+                $table->boolean('is_admin')->default(false);
+                $table->text('image_src')->nullable();
+            }
+        );
     }
 
     /**
@@ -27,10 +29,12 @@ class AddUsersProfile extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-            $table->dropColumn('is_admin');
-            $table->dropColumn('image_src');
-        });
+        Schema::table(
+            'users', function (Blueprint $table) {
+                //
+                $table->dropColumn('is_admin');
+                $table->dropColumn('image_src');
+            }
+        );
     }
 }

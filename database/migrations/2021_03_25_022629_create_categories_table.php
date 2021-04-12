@@ -13,14 +13,16 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string('name', 50);
-            $table->text('image_src');
-            $table->foreignId('created_by');
-            $table->foreignId('updated_by');
-        });
+        Schema::create(
+            'categories', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+                $table->string('name', 50);
+                $table->text('image_src');
+                $table->foreignId('created_by');
+                $table->foreignId('updated_by');
+            }
+        );
     }
 
     /**
