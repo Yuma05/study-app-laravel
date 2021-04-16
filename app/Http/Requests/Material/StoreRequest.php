@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|max:50',
             'content' => 'required|String',
-            'category_id' => 'required|integer',
+            'category_id' => 'required|exists:categories,id',
         ];
     }
 
