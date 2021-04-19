@@ -15,14 +15,16 @@ class CreateMaterialsTable extends Migration
     {
         Schema::create(
             'materials', function (Blueprint $table) {
-                $table->id();
-                $table->timestamps();
-                $table->string('name', 50);
-                $table->text('content');
-                $table->foreignId('category_id');
-                $table->foreignId('created_by');
-                $table->foreignId('updated_by');
-            }
+            $table->id();
+            $table->timestamps();
+            $table->string('name', 50);
+            $table->text('content');
+            $table->foreignId('category_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->foreignId('created_by');
+            $table->foreignId('updated_by');
+        }
         );
     }
 
