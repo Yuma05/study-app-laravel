@@ -20,12 +20,16 @@ class MaterialControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    public function testIndex(): void
+    public function setup(): void
     {
+        parent::setUp();
         $this->seed(UsersTableSeeder::class);
         $this->seed(CategoriesTableSeeder::class);
         $this->seed(MaterialsTableSeeder::class);
+    }
 
+    public function testIndex(): void
+    {
         $controller = new MaterialController();
         $result = $controller->index(1);
 
@@ -36,10 +40,6 @@ class MaterialControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $this->seed(UsersTableSeeder::class);
-        $this->seed(CategoriesTableSeeder::class);
-        $this->seed(MaterialsTableSeeder::class);
-
         $request = new StoreRequest();
         $useCase = new StoreUseCase();
         $controller = new MaterialController();
@@ -60,10 +60,6 @@ class MaterialControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $this->seed(UsersTableSeeder::class);
-        $this->seed(CategoriesTableSeeder::class);
-        $this->seed(MaterialsTableSeeder::class);
-
         $request = new UpdateRequest();
         $useCase = new UpdateUseCase();
         $controller = new MaterialController();
@@ -83,10 +79,6 @@ class MaterialControllerTest extends TestCase
 
     public function testDestroy(): void
     {
-        $this->seed(UsersTableSeeder::class);
-        $this->seed(CategoriesTableSeeder::class);
-        $this->seed(MaterialsTableSeeder::class);
-
         $useCase = new DestroyUseCase();
         $controller = new MaterialController();
         $id = 1;
