@@ -27,6 +27,11 @@ class MaterialControllerTest extends TestCase
         $this->seed(CategoriesTableSeeder::class);
         $this->seed(MaterialsTableSeeder::class);
     }
+    
+    public function tearDown(): void
+    {
+           parent::tearDown();
+    }
 
     public function testIndex(): void
     {
