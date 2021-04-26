@@ -19,11 +19,13 @@ class MaterialsTableSeeder extends Seeder
 
         $materials = [
             [
+                'id' => 1,
                 'name' => 'Material A',
                 'content' => 'Teaching Material A',
                 'category_id' => '1',
             ],
             [
+                'id' => 2,
                 'name' => 'Material B',
                 'content' => 'Teaching Material B',
                 'category_id' => '2',
