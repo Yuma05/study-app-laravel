@@ -32,7 +32,7 @@ class QuizController extends Controller
      * @param StoreUseCase $useCase
      * @return QuestionResource
      */
-    public function store(StoreRequest $request, StoreUseCase $useCase)
+    public function store(StoreRequest $request, StoreUseCase $useCase): QuestionResource
     {
         $quiz = $request->makeQuiz();
         $created = $useCase->invoke($quiz);
