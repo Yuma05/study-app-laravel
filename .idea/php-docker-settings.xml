@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpDockerContainerSettings">
+    <list>
+      <map>
+        <entry key="fe43fbb2-4111-4848-8e82-995731b4de22">
+          <value>
+            <DockerContainerSettings>
+              <option name="links">
+                <list>
+                  <DockerLinkImpl>
+                    <option name="name" value="study-app-laravel_mysql_1" />
+                  </DockerLinkImpl>
+                </list>
+              </option>
+              <option name="runCliOptions" value="" />
+              <option name="version" value="1" />
+              <option name="volumeBindings">
+                <list>
+                  <DockerVolumeBindingImpl>
+                    <option name="containerPath" value="/opt/project" />
+                    <option name="hostPath" value="$PROJECT_DIR$" />
+                  </DockerVolumeBindingImpl>
+                </list>
+              </option>
+            </DockerContainerSettings>
+          </value>
+        </entry>
+      </map>
+    </list>
+  </component>
+</project>

@@ -19,10 +19,12 @@ class CategoriesTableSeeder extends Seeder
 
         $categories = [
             [
+                'id' => 1,
                 'name' => 'Category A',
                 'image_src' => 'https://picsum.photos/id/1015/300/300',
             ],
             [
+                'id' => 2,
                 'name' => 'Category B',
                 'image_src' => 'https://picsum.photos/id/1036/300/300',
             ],

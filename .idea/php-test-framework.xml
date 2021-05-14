@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PhpTestFrameworkVersionCache">
-    <tools_cache>
-      <tool tool_name="PHPUnit">
-        <cache>
-          <versions>
-            <info id="interpreter-554555eb-fa58-47e3-b5b7-1c4d0d8b8543" version="9.5.3" />
-            <info id="interpreter-8f882703-a4ab-448e-9971-db569f0428de" version="9.5.3" />
-          </versions>
-        </cache>
-      </tool>
-    </tools_cache>
-  </component>
+    <component name="PhpTestFrameworkVersionCache">
+        <tools_cache>
+            <tool tool_name="PHPUnit">
+                <cache>
+                    <versions>
+                        <info id="Local" version="9.5.3" />
+                        <info id="interpreter-0b724f6c-53e5-4071-8266-23ec2415338d" version="9.5.3" />
+                        <info id="interpreter-4009956a-3cb4-4ed2-aead-2340f4fbea70" version="9.5.3" />
+                        <info id="interpreter-fe43fbb2-4111-4848-8e82-995731b4de22" version="9.5.3" />
+                    </versions>
+                </cache>
+            </tool>
+        </tools_cache>
+    </component>
 </project>

@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\QuizController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,11 @@ Route::middleware(['auth:sanctum'])->group(
                 Route::post('material', [MaterialController::class, 'store']);
                 Route::post('material/{id}', [MaterialController::class, 'update']);
                 Route::delete('material/{id}', [MaterialController::class, 'destroy']);
+
+                // クイズ
+                Route::post('quiz', [QuizController::class, 'store']);
+                Route::post('quiz/{id}', [QuizController::class, 'update']);
+                Route::delete('quiz/{id}', [QuizController::class, 'destroy']);
             }
         );
         // ユーザー情報
@@ -44,6 +50,9 @@ Route::middleware(['auth:sanctum'])->group(
 
         // 教材
         Route::get('material/{category_id}', [MaterialController::class, 'index']);
+
+        // クイズ
+        Route::get('quiz/{material_id}', [QuizController::class, 'index']);
     }
 );
 
