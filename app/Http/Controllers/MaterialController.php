@@ -27,6 +27,17 @@ class MaterialController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return MaterialResource
+     */
+    public function show(int $id)
+    {
+        return new MaterialResource(Material::find($id));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param StoreRequest $request
