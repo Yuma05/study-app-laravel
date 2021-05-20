@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Middleware\AdminAuth;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\QuizController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,11 @@ Route::middleware(['auth:sanctum'])->group(
 
                 // 学習状況 任意のユーザー
                 Route::get('status/{user_id}', [StatusController::class, 'index_admin']);
+              
+                // クイズ
+                Route::post('quiz', [QuizController::class, 'store']);
+                Route::post('quiz/{id}', [QuizController::class, 'update']);
+                Route::delete('quiz/{id}', [QuizController::class, 'destroy']);
             }
         );
         // ユーザー情報
@@ -47,13 +53,18 @@ Route::middleware(['auth:sanctum'])->group(
         Route::get('category/{id}', [CategoryController::class, 'show']);
 
         // 教材
-        Route::get('material/{category_id}', [MaterialController::class, 'index']);
+        Route::get('materials/{category_id}', [MaterialController::class, 'index']);
+        Route::get('material/{material_id}', [MaterialController::class, 'show']);
 
         // 学習状況
         Route::get('status', [StatusController::class, 'index']);
         Route::post('status', [StatusController::class, 'store']);
         Route::post('status/{id}', [StatusController::class, 'update']);
         Route::delete('status/{id}', [StatusController::class, 'destroy']);
+
+
+        // クイズ
+        Route::get('quiz/{material_id}', [QuizController::class, 'index']);
     }
 );
 
