@@ -50,7 +50,7 @@ Route::middleware(['auth:sanctum'])->group(
 
         // 教材
         Route::get('materials/{category_id}', [MaterialController::class, 'index']);
-        Route::get('material/{category_id}', [MaterialController::class, 'show']);
+        Route::get('material/{material_id}', [MaterialController::class, 'show']);
 
         // クイズ
         Route::get('quiz/{material_id}', [QuizController::class, 'index']);
