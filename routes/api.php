@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StatusController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\TokenController;
 use App\Http\Controllers\AuthController;
@@ -35,6 +36,9 @@ Route::middleware(['auth:sanctum'])->group(
                 Route::post('material/{id}', [MaterialController::class, 'update']);
                 Route::delete('material/{id}', [MaterialController::class, 'destroy']);
 
+                // 学習状況 任意のユーザー
+                Route::get('status/{user_id}', [StatusController::class, 'index_admin']);
+              
                 // クイズ
                 Route::post('quiz', [QuizController::class, 'store']);
                 Route::post('quiz/{id}', [QuizController::class, 'update']);
@@ -51,6 +55,13 @@ Route::middleware(['auth:sanctum'])->group(
         // 教材
         Route::get('materials/{category_id}', [MaterialController::class, 'index']);
         Route::get('material/{material_id}', [MaterialController::class, 'show']);
+
+        // 学習状況
+        Route::get('status', [StatusController::class, 'index']);
+        Route::post('status', [StatusController::class, 'store']);
+        Route::post('status/{id}', [StatusController::class, 'update']);
+        Route::delete('status/{id}', [StatusController::class, 'destroy']);
+
 
         // クイズ
         Route::get('quiz/{material_id}', [QuizController::class, 'index']);
