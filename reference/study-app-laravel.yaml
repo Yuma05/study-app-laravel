@@ -1,0 +1,1046 @@
+openapi: 3.0.0
+info:
+  title: Study app
+  version: '1.0'
+  description: スタディアプリのAPIドキュメント
+servers:
+  - url: 'http://localhost'
+tags:
+  - name: authentication
+  - name: quiz
+  - name: material
+  - name: category
+  - name: status
+paths:
+  /api/users/auth:
+    get:
+      summary: ''
+      tags:
+        - authentication
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      name:
+                        type: string
+                        minLength: 1
+                      email:
+                        type: string
+                        minLength: 1
+                      emailVerified: {}
+                      is_admin:
+                        type: boolean
+                    required:
+                      - id
+                      - name
+                      - email
+                      - is_admin
+                required:
+                  - data
+                x-examples:
+                  example-1:
+                    data:
+                      id: 1
+                      name: user
+                      email: user@example.com
+                      emailVerified: null
+                      is_admin: false
+              examples:
+                example:
+                  value:
+                    data:
+                      id: 1
+                      name: user
+                      email: user@example.com
+                      emailVerified: null
+                      is_admin: false
+        '401':
+          description: Unauthorized
+      operationId: get-api-users-auth
+      description: ログインしているユーザー情報を取得します
+  /api/category:
+    get:
+      summary: ''
+      tags:
+        - category
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data:
+                      - id: 1
+                        name: Category A
+                        image_src: 'https://picsum.photos/id/1015/300/300'
+                      - id: 2
+                        name: Category B
+                        image_src: 'https://picsum.photos/id/1036/300/300'
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        name:
+                          type: string
+                          minLength: 1
+                        image_src:
+                          type: string
+                          minLength: 1
+                          format: uri
+                      required:
+                        - id
+                        - name
+                        - image_src
+                required:
+                  - data
+              examples:
+                example:
+                  value:
+                    data:
+                      - id: 1
+                        name: Category A
+                        image_src: 'https://picsum.photos/id/1015/300/300'
+                      - id: 2
+                        name: Category B
+                        image_src: 'https://picsum.photos/id/1036/300/300'
+        '401':
+          description: Unauthorized
+      operationId: get-api-category
+      description: すべてのカテゴリを取得します
+    post:
+      summary: ''
+      operationId: post-api-category
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data:
+                      id: 3
+                      name: Category X
+                      image_src: 'https://laravel-study-app.s3.ap-northeast-1.amazonaws.com/category/8NmvtQzfVIYelDcxeRPMTmQoPntW7OSujPWDfcuD.png'
+                properties:
+                  data:
+                    type: object
+                    required:
+                      - id
+                      - name
+                      - image_src
+                    properties:
+                      id:
+                        type: number
+                      name:
+                        type: string
+                        minLength: 1
+                      image_src:
+                        type: string
+                        minLength: 1
+                        format: uri
+                required:
+                  - data
+              examples:
+                example:
+                  value:
+                    data:
+                      id: 3
+                      name: New category
+                      image_src: 'https://laravel-study-app.s3.ap-northeast-1.amazonaws.com/category/xxxxx.png'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  name: New category
+                  file: 'https://laravel-study-app.s3.ap-northeast-1.amazonaws.com/category/xxxxx.png'
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                file: {}
+              required:
+                - name
+                - file
+            examples:
+              example:
+                value:
+                  name: New category
+                  file: image file
+        description: ''
+      description: 新規カテゴリーを作成します
+      tags:
+        - category
+  '/api/category/{category_id}':
+    parameters:
+      - schema:
+          type: string
+        name: category_id
+        in: path
+        required: true
+    get:
+      summary: ''
+      tags:
+        - category
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data:
+                      id: 1
+                      name: Category A
+                      image_src: 'https://picsum.photos/id/1015/300/300'
+                properties:
+                  data:
+                    type: object
+                    required:
+                      - id
+                      - name
+                      - image_src
+                    properties:
+                      id:
+                        type: number
+                      name:
+                        type: string
+                        minLength: 1
+                      image_src:
+                        type: string
+                        minLength: 1
+                        format: uri
+                required:
+                  - data
+              examples:
+                example:
+                  value:
+                    data:
+                      id: 1
+                      name: Category A
+                      image_src: 'https://picsum.photos/id/1015/300/300'
+        '401':
+          description: Unauthorized
+      operationId: get-api-category-category_id
+      description: 1つのカテゴリを取得します
+    delete:
+      summary: ''
+      operationId: delete-api-category-category_id
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      description: カテゴリを削除します
+      tags:
+        - category
+    post:
+      summary: ''
+      operationId: post-api-category-category_id
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      description: カテゴリーを更新します
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  name: Category A
+                  image_src: 'https://picsum.photos/id/1036/300/300'
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                file: {}
+              required:
+                - file
+            examples:
+              example:
+                value:
+                  name: Category name
+                  file: image file
+      tags:
+        - category
+  '/api/materials/{category_id}':
+    parameters:
+      - schema:
+          type: string
+        name: category_id
+        in: path
+        required: true
+    get:
+      summary: ''
+      tags:
+        - material
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data:
+                      - id: 1
+                        category_id: 1
+                        name: Material A
+                        content: Teaching Material A
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        category_id:
+                          type: number
+                        name:
+                          type: string
+                          minLength: 1
+                        content:
+                          type: string
+                          minLength: 1
+                      required:
+                        - id
+                        - category_id
+                        - name
+                        - content
+                required:
+                  - data
+              examples:
+                example:
+                  value:
+                    data:
+                      - id: 1
+                        category_id: 1
+                        name: Material A
+                        content: Teaching Material A
+        '401':
+          description: Unauthorized
+      operationId: get-api-materials-category_id
+      description: あるカテゴリーに属している教材を取得します
+  '/api/material/{material_id}':
+    parameters:
+      - schema:
+          type: string
+        name: material_id
+        in: path
+        required: true
+    get:
+      summary: ''
+      tags:
+        - material
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      category_id:
+                        type: number
+                      name:
+                        type: string
+                        minLength: 1
+                      content:
+                        type: string
+                        minLength: 1
+                    required:
+                      - id
+                      - category_id
+                      - name
+                      - content
+                required:
+                  - data
+                x-examples:
+                  example-1:
+                    data:
+                      id: 1
+                      category_id: 1
+                      name: Material A
+                      content: Teaching Material A
+              examples:
+                example:
+                  value:
+                    data:
+                      id: 1
+                      category_id: 1
+                      name: Material A
+                      content: Teaching Material A
+      operationId: get-api-material-material_id
+      description: 1つの教材を取得します
+    post:
+      summary: ''
+      operationId: post-api-material-material_id
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      description: 教材を更新します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  name: Material
+                  content: Hello
+                  category_id: 1
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                content:
+                  type: string
+                  minLength: 1
+                category_id:
+                  type: number
+            examples:
+              example:
+                value:
+                  name: Category X
+                  content: Hello
+      tags:
+        - material
+    delete:
+      summary: ''
+      operationId: delete-api-material-material_id
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      description: 教材を削除します
+      tags:
+        - material
+  '/api/quiz/{quiz_id}':
+    parameters:
+      - schema:
+          type: string
+        name: quiz_id
+        in: path
+        required: true
+    get:
+      summary: ''
+      tags:
+        - quiz
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data:
+                      - id: 1
+                        material_id: 1
+                        content: Question 1
+                        explanation: Explanation for Question1
+                        choices:
+                          - content: ○
+                            is_answer: 0
+                          - content: ☓
+                            is_answer: 1
+                      - id: 2
+                        material_id: 1
+                        content: Question 2
+                        explanation: Explanation for Question2
+                        choices:
+                          - content: Choice 1
+                            is_answer: 0
+                          - content: Choice 2
+                            is_answer: 1
+                          - content: Choice 3
+                            is_answer: 0
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        material_id:
+                          type: number
+                        content:
+                          type: string
+                          minLength: 1
+                        explanation:
+                          type: string
+                          minLength: 1
+                        choices:
+                          type: array
+                          uniqueItems: true
+                          minItems: 1
+                          items:
+                            type: object
+                            properties:
+                              content:
+                                type: string
+                                minLength: 1
+                              is_answer:
+                                type: boolean
+                            required:
+                              - content
+                              - is_answer
+                      required:
+                        - id
+                        - material_id
+                        - content
+                        - explanation
+                        - choices
+                required:
+                  - data
+              examples:
+                example:
+                  value:
+                    data:
+                      - id: 1
+                        material_id: 1
+                        content: Question 1
+                        explanation: Explanation for Question1
+                        choices:
+                          - content: ○
+                            is_answer: false
+                          - content: ☓
+                            is_answer: true
+                      - id: 2
+                        material_id: 1
+                        content: Question 2
+                        explanation: Explanation for Question2
+                        choices:
+                          - content: Choice 1
+                            is_answer: false
+                          - content: Choice 2
+                            is_answer: true
+                          - content: Choice 3
+                            is_answer: false
+        '401':
+          description: Unauthorized
+      operationId: get-api-quiz-quiz_id
+      description: クイズを取得します
+    post:
+      summary: ''
+      operationId: post-api-quiz-quiz_id
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      description: クイズを更新します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  id: 3
+                  material_id: 2
+                  content: Question 2 update
+                  explanation: Explanation for Question2
+                  choices:
+                    - content: ○
+                      is_answer: 1
+                    - content: ×
+                      is_answer: 0
+              properties:
+                material_id:
+                  type: number
+                content:
+                  type: string
+                  minLength: 1
+                explanation:
+                  type: string
+                  minLength: 1
+                choices:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      content:
+                        type: string
+                        minLength: 1
+                      is_answer:
+                        type: boolean
+                    required:
+                      - content
+                      - is_answer
+              required:
+                - content
+                - explanation
+                - choices
+      tags:
+        - quiz
+  /api/status:
+    get:
+      summary: ''
+      tags:
+        - status
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    data:
+                      - id: 1
+                        quiz_score: 50
+                        is_complete: 1
+                        user_id: 1
+                        material_id: 1
+                      - id: 2
+                        quiz_score: 50
+                        is_complete: 0
+                        user_id: 1
+                        material_id: 2
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        quiz_score:
+                          type: number
+                        is_complete:
+                          type: boolean
+                        user_id:
+                          type: number
+                        material_id:
+                          type: number
+                      required:
+                        - id
+                        - quiz_score
+                        - is_complete
+                        - user_id
+                        - material_id
+                required:
+                  - data
+              examples:
+                example:
+                  value:
+                    data:
+                      - id: 1
+                        quiz_score: 50
+                        is_complete: true
+                        user_id: 1
+                        material_id: 1
+                      - id: 2
+                        quiz_score: 50
+                        is_complete: false
+                        user_id: 1
+                        material_id: 2
+        '401':
+          description: Unauthorized
+      operationId: get-api-status
+      description: ログインしているユーザーの学習状況を取得します
+    post:
+      summary: ''
+      operationId: post-api-status
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  material_id: 1
+                  quiz_score: 90
+                  is_complete: true
+              properties:
+                material_id:
+                  type: number
+                quiz_score:
+                  type: number
+                is_complete:
+                  type: boolean
+              required:
+                - material_id
+            examples:
+              example:
+                value:
+                  material_id: 1
+                  quiz_score: 90
+                  is_complete: true
+        description: ''
+      description: 現在のユーザーに紐付いた新しいstatusを作成します
+      tags:
+        - status
+  '/api/status/{status_id}':
+    parameters:
+      - schema:
+          type: string
+        name: status_id
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-api-status-status_id
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      description: statusの更新をします
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  material_id: 1
+                  quiz_score: 0
+                  is_complete: true
+              properties:
+                material_id:
+                  type: number
+                quiz_score:
+                  type: number
+                is_complete:
+                  type: boolean
+            examples:
+              example:
+                value:
+                  quiz_score: 100
+                  is_complete: true
+        description: ''
+      tags:
+        - status
+    get:
+      summary: ''
+      operationId: get-api-status-status_id
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      description: ユーザーの学習状況を取得します
+      x-internal: false
+      tags:
+        - status
+  /login:
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: |-
+        ログインを行います
+        事前にcsrf tokenを取得する必要があります
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  email: user@example.com
+                  password: password
+              properties:
+                email:
+                  type: string
+                  minLength: 1
+                  format: email
+                password:
+                  type: string
+                  minLength: 1
+              required:
+                - email
+                - password
+            examples:
+              example:
+                value:
+                  email: user@example.com
+                  password: password
+      tags:
+        - authentication
+  /logout:
+    post:
+      summary: ''
+      operationId: post-logout
+      responses:
+        '204':
+          description: No Content
+      description: |-
+        ログアウトを行います
+        事前にcsrf tokenを取得する必要があります
+      tags:
+        - authentication
+  /sanctum/csrf-cookie:
+    get:
+      summary: ''
+      tags:
+        - authentication
+      responses:
+        '204':
+          description: No Content
+      operationId: get-sanctum-csrf-cookie
+      description: csrf tokenを取得します
+  /register:
+    post:
+      summary: ''
+      operationId: post-register
+      responses:
+        '201':
+          description: Created
+        '422':
+          description: Unprocessable Entity (WebDAV)
+      description: |-
+        新規ユーザーを作成します
+        事前にcsrf tokenを取得する必要があります
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  name: hoge
+                  email: hogehoge@example.com
+                  password: hogehoge
+                  password_confirmation: hogehoge
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                email:
+                  type: string
+                  minLength: 1
+                  format: email
+                password:
+                  type: string
+                  minLength: 1
+                password_confirmation:
+                  type: string
+                  minLength: 1
+              required:
+                - name
+                - email
+                - password
+                - password_confirmation
+            examples:
+              example:
+                value:
+                  name: user
+                  email: user@example.com
+                  password: password
+                  password_confirmation: password
+        description: ''
+      tags:
+        - authentication
+  /api/material:
+    post:
+      summary: ''
+      operationId: post-api-material
+      description: 教材を新規作成します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                content:
+                  type: string
+                  minLength: 1
+                category_id:
+                  type: number
+              required:
+                - name
+                - content
+                - category_id
+              x-examples:
+                example-1:
+                  name: New material
+                  content: Hello
+                  category_id: 1
+            examples:
+              example:
+                value:
+                  name: New material
+                  content: Hello
+                  category_id: 1
+        description: ''
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      tags:
+        - material
+  /api/quiz:
+    post:
+      summary: ''
+      operationId: post-api-quiz
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  content: Question 2
+                  explanation: Explanation for Question2
+                  material_id: 1
+                  choices:
+                    - content: Choice 5
+                      is_answer: 0
+                    - content: Choice 9
+                      is_answer: 1
+                    - content: Choice 2
+                      is_answer: 0
+              properties:
+                content:
+                  type: string
+                  minLength: 1
+                explanation:
+                  type: string
+                  minLength: 1
+                material_id:
+                  type: number
+                choices:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      content:
+                        type: string
+                        minLength: 1
+                      is_answer:
+                        type: boolean
+                    required:
+                      - content
+                      - is_answer
+              required:
+                - content
+                - explanation
+                - material_id
+                - choices
+            examples:
+              example:
+                value:
+                  content: Question 2
+                  explanation: Explanation for Question2
+                  material_id: 1
+                  choices:
+                    - content: Choice 1
+                      is_answer: false
+                    - content: Choice 2
+                      is_answer: true
+                    - content: Choice 3
+                      is_answer: false
+      tags:
+        - quiz
+      description: クイズを新規に作成します
+components:
+  schemas: {}
